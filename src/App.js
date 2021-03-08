@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import PieceOfArt from './PieceOfArt'
 import './App.css';
 
 function App() {
+  const [art, setArt] = useState([]);
+  useEffect(() => {
+    const apiKey = `6jNX7SQp`;
+    axios({
+      method: 'GET',
+      url: `https://www.rijksmuseum.nl/api/en/collection`,
+      dataResponse: 'json',
+      params: {
+        key: apiKey,
+        format: 'json',
+        hasImage: true,
+      },
+    }).then((response) => {
+      console.log(response.data.artObjects);
+    })
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>View Dutch Art</h1>
+      {art.map((artWork) => {
+        return (
+          <PieceOfArt
+            key={artWork.id}
+            alt={artWork.title}
+            title={artWork.longTitle}
+            imagePath={artWork.webImage.url}
+          />
+        );
+      })}
     </div>
   );
 }
