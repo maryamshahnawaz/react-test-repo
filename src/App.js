@@ -22,7 +22,7 @@ function App() {
   }, [])
   return (
     <div className="App">
-      <h2>View Dutch Art</h2>
+      <h1>View Dutch Art</h1>
       {art.map((artWork) => {
         return (
           <PieceOfArt
